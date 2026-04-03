@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import {
   View, Text, TextInput, TouchableOpacity, StyleSheet,
-  KeyboardAvoidingView, Platform, ScrollView, Alert,
+  KeyboardAvoidingView, Platform, ScrollView,
   ActivityIndicator,
 } from 'react-native';
 import { useAuth } from '../context/AuthContext';
-import { authAPI } from '../utils/api';
 import { colors, radius, spacing, typography } from '../utils/theme';
 
 export default function LoginScreen({ navigation }) {
@@ -13,25 +12,15 @@ export default function LoginScreen({ navigation }) {
   const [email,    setEmail]    = useState('');
   const [password, setPassword] = useState('');
   const [loading,  setLoading]  = useState(false);
-  const [error,    setError]    = useState('');
 
   const handleLogin = async () => {
-    if (!email.trim() || !password.trim()) {
-      setError('Please fill in all fields');
-      return;
-    }
-    setError('');
+    if (!email.trim() || !password.trim()) return;
     setLoading(true);
-    try {
-      const res = await authAPI.login({ email: email.trim(), password });
-      const { token, ...userData } = res.data;
-      await login(userData, token);
-      navigation.replace('Main');
-    } catch (err) {
-      setError(err.response?.data?.detail || 'Login failed. Check your credentials.');
-    } finally {
-      setLoading(false);
-    }
+    // Demo mode — bypass auth, seedha andar jao
+    const demoUser = { email: email.trim(), name: 'Demo User', id: 1 };
+    await login(demoUser, 'demo-token-123');
+    setLoading(false);
+    navigation.replace('Main');
   };
 
   return (
@@ -40,10 +29,8 @@ export default function LoginScreen({ navigation }) {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
-        {/* Glow */}
         <View style={styles.glowOrb} />
 
-        {/* Logo */}
         <View style={styles.logoWrap}>
           <View style={styles.logoMark}>
             <Text style={styles.logoMarkText}>L</Text>
@@ -55,14 +42,7 @@ export default function LoginScreen({ navigation }) {
           <Text style={styles.subtitle}>Sign in to your account</Text>
         </View>
 
-        {/* Card */}
         <View style={styles.card}>
-          {!!error && (
-            <View style={styles.errorBox}>
-              <Text style={styles.errorText}>{error}</Text>
-            </View>
-          )}
-
           <Text style={styles.label}>Email</Text>
           <TextInput
             style={styles.input}
@@ -129,7 +109,6 @@ const styles = StyleSheet.create({
   wordmarkText: { fontSize: 32, fontWeight: '800', color: colors.textPrimary, letterSpacing: -0.5 },
   wordmarkDot: { fontSize: 36, fontWeight: '800', color: colors.accentGreen },
   subtitle: { fontSize: typography.sm, color: colors.textSecondary, marginTop: 6 },
-
   card: {
     backgroundColor: colors.bgSecondary,
     borderRadius: radius.lg,
@@ -137,13 +116,6 @@ const styles = StyleSheet.create({
     borderColor: colors.border,
     padding: spacing.lg,
   },
-  errorBox: {
-    backgroundColor: 'rgba(239,68,68,0.1)',
-    borderWidth: 1, borderColor: 'rgba(239,68,68,0.3)',
-    borderRadius: radius.sm, padding: spacing.sm, marginBottom: spacing.md,
-  },
-  errorText: { color: '#f87171', fontSize: typography.sm },
-
   label: { color: colors.textSecondary, fontSize: typography.sm, marginBottom: 6, marginTop: spacing.sm },
   input: {
     backgroundColor: colors.bgTertiary,
@@ -153,7 +125,6 @@ const styles = StyleSheet.create({
     color: colors.textPrimary, fontSize: typography.base,
     marginBottom: 4,
   },
-
   btn: {
     backgroundColor: colors.accentGreen,
     borderRadius: radius.sm,
@@ -168,7 +139,6 @@ const styles = StyleSheet.create({
   },
   btnDisabled: { opacity: 0.6 },
   btnText: { color: '#000', fontWeight: '700', fontSize: typography.base },
-
   switchRow: { flexDirection: 'row', justifyContent: 'center', marginTop: spacing.lg },
   switchText: { color: 'rgba(255,255,255,0.4)', fontSize: typography.sm },
   switchLink: { color: colors.accentGreen, fontSize: typography.sm, fontWeight: '600' },
