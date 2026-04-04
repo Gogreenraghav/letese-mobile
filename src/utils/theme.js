@@ -1,17 +1,18 @@
-// Design tokens — same as website
+// Light theme — White background, Blue text, Green dot
 export const colors = {
-  bgPrimary:    '#0A0A0F',
-  bgSecondary:  '#111118',
-  bgTertiary:   '#1A1A25',
-  accentGreen:  '#22c55e',
+  bgPrimary:       '#FFFFFF',
+  bgSecondary:     '#F8FAFF',
+  bgTertiary:      '#EEF2FF',
+  accentGreen:     '#22c55e',
   accentGreenGlow: 'rgba(34,197,94,0.15)',
-  textPrimary:  '#FFFFFF',
-  textSecondary:'#94a3b8',
-  border:       'rgba(255,255,255,0.08)',
-  borderAccent: 'rgba(34,197,94,0.3)',
-  red:          '#ef4444',
-  yellow:       '#eab308',
-  blue:         '#3b82f6',
+  accentBlue:      '#1E3A8A',
+  textPrimary:     '#1E3A8A',
+  textSecondary:   '#4B6CB7',
+  border:          'rgba(30,58,138,0.12)',
+  borderAccent:    'rgba(34,197,94,0.4)',
+  red:             '#ef4444',
+  yellow:          '#eab308',
+  blue:            '#1E3A8A',
 };
 
 export const typography = {

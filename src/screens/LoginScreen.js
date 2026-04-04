@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import {
   View, Text, TextInput, TouchableOpacity, StyleSheet,
-  KeyboardAvoidingView, Platform, ScrollView,
-  ActivityIndicator,
+  KeyboardAvoidingView, Platform, ScrollView, ActivityIndicator,
 } from 'react-native';
 import { useAuth } from '../context/AuthContext';
 import { colors, radius, spacing, typography } from '../utils/theme';
@@ -16,7 +15,6 @@ export default function LoginScreen({ navigation }) {
   const handleLogin = async () => {
     if (!email.trim() || !password.trim()) return;
     setLoading(true);
-    // Demo mode — bypass auth, seedha andar jao
     const demoUser = { email: email.trim(), name: 'Demo User', id: 1 };
     await login(demoUser, 'demo-token-123');
     setLoading(false);
@@ -29,8 +27,8 @@ export default function LoginScreen({ navigation }) {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
-        <View style={styles.glowOrb} />
 
+        {/* Logo */}
         <View style={styles.logoWrap}>
           <View style={styles.logoMark}>
             <Text style={styles.logoMarkText}>L</Text>
@@ -42,12 +40,13 @@ export default function LoginScreen({ navigation }) {
           <Text style={styles.subtitle}>Sign in to your account</Text>
         </View>
 
+        {/* Card */}
         <View style={styles.card}>
           <Text style={styles.label}>Email</Text>
           <TextInput
             style={styles.input}
             placeholder="you@example.com"
-            placeholderTextColor={colors.textSecondary}
+            placeholderTextColor="#94a3b8"
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
@@ -59,7 +58,7 @@ export default function LoginScreen({ navigation }) {
           <TextInput
             style={styles.input}
             placeholder="••••••••"
-            placeholderTextColor={colors.textSecondary}
+            placeholderTextColor="#94a3b8"
             value={password}
             onChangeText={setPassword}
             secureTextEntry
@@ -72,7 +71,7 @@ export default function LoginScreen({ navigation }) {
             activeOpacity={0.85}
           >
             {loading
-              ? <ActivityIndicator color="#000" />
+              ? <ActivityIndicator color="#fff" />
               : <Text style={styles.btnText}>Sign In</Text>
             }
           </TouchableOpacity>
@@ -90,56 +89,56 @@ export default function LoginScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.bgPrimary },
-  scroll: { flexGrow: 1, justifyContent: 'center', padding: spacing.lg },
-  glowOrb: {
-    position: 'absolute', top: -100, right: -100,
-    width: 350, height: 350, borderRadius: 175,
-    backgroundColor: 'rgba(34,197,94,0.05)',
-  },
-  logoWrap: { alignItems: 'center', marginBottom: spacing.xl },
+  container:  { flex: 1, backgroundColor: '#FFFFFF' },
+  scroll:     { flexGrow: 1, justifyContent: 'center', padding: spacing.lg },
+
+  logoWrap:   { alignItems: 'center', marginBottom: spacing.xl },
   logoMark: {
     width: 64, height: 64, borderRadius: 18,
-    backgroundColor: 'rgba(34,197,94,0.12)',
-    borderWidth: 1, borderColor: 'rgba(34,197,94,0.35)',
+    backgroundColor: 'rgba(30,58,138,0.1)',
+    borderWidth: 1, borderColor: 'rgba(30,58,138,0.2)',
     alignItems: 'center', justifyContent: 'center', marginBottom: 14,
   },
-  logoMarkText: { fontSize: 30, fontWeight: '800', color: colors.accentGreen },
-  wordmark: { flexDirection: 'row', alignItems: 'baseline' },
-  wordmarkText: { fontSize: 32, fontWeight: '800', color: colors.textPrimary, letterSpacing: -0.5 },
-  wordmarkDot: { fontSize: 36, fontWeight: '800', color: colors.accentGreen },
-  subtitle: { fontSize: typography.sm, color: colors.textSecondary, marginTop: 6 },
+  logoMarkText:   { fontSize: 30, fontWeight: '800', color: '#1E3A8A' },
+  wordmark:       { flexDirection: 'row', alignItems: 'baseline' },
+  wordmarkText:   { fontSize: 32, fontWeight: '800', color: '#1E3A8A', letterSpacing: -0.5 },
+  wordmarkDot:    { fontSize: 36, fontWeight: '800', color: '#22c55e' },
+  subtitle:       { fontSize: typography.sm, color: '#4B6CB7', marginTop: 6 },
+
   card: {
-    backgroundColor: colors.bgSecondary,
+    backgroundColor: '#F8FAFF',
     borderRadius: radius.lg,
     borderWidth: 1,
-    borderColor: colors.border,
+    borderColor: 'rgba(30,58,138,0.12)',
     padding: spacing.lg,
+    shadowColor: '#1E3A8A',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.08,
+    shadowRadius: 16,
+    elevation: 3,
   },
-  label: { color: colors.textSecondary, fontSize: typography.sm, marginBottom: 6, marginTop: spacing.sm },
+  label: { color: '#1E3A8A', fontSize: typography.sm, fontWeight: '600', marginBottom: 6, marginTop: spacing.sm },
   input: {
-    backgroundColor: colors.bgTertiary,
-    borderWidth: 1, borderColor: colors.border,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1, borderColor: 'rgba(30,58,138,0.2)',
     borderRadius: radius.sm,
     paddingHorizontal: spacing.md, paddingVertical: 12,
-    color: colors.textPrimary, fontSize: typography.base,
+    color: '#1E3A8A', fontSize: typography.base,
     marginBottom: 4,
   },
+
   btn: {
-    backgroundColor: colors.accentGreen,
+    backgroundColor: '#1E3A8A',
     borderRadius: radius.sm,
     paddingVertical: 14,
     alignItems: 'center',
     marginTop: spacing.lg,
-    shadowColor: colors.accentGreen,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.4,
-    shadowRadius: 12,
-    elevation: 6,
+    elevation: 3,
   },
   btnDisabled: { opacity: 0.6 },
-  btnText: { color: '#000', fontWeight: '700', fontSize: typography.base },
-  switchRow: { flexDirection: 'row', justifyContent: 'center', marginTop: spacing.lg },
-  switchText: { color: 'rgba(255,255,255,0.4)', fontSize: typography.sm },
-  switchLink: { color: colors.accentGreen, fontSize: typography.sm, fontWeight: '600' },
+  btnText:     { color: '#FFFFFF', fontWeight: '700', fontSize: typography.base },
+
+  switchRow:   { flexDirection: 'row', justifyContent: 'center', marginTop: spacing.lg },
+  switchText:  { color: '#4B6CB7', fontSize: typography.sm },
+  switchLink:  { color: '#22c55e', fontSize: typography.sm, fontWeight: '600' },
 });
